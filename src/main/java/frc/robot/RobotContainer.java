@@ -27,23 +27,24 @@ public class RobotContainer {
 
     private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
-    private final XboxController xboxOne = new XboxController(OIConstants.kDriverControllerPort);
+    //private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 
+    private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
 
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -xboxOne.getLeftX(),
-                () -> xboxOne.getLeftY(),
-                () -> xboxOne.getRightX(),
-                () -> !xboxOne.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+                () -> -driverJoytick.getLeftX(),
+                () -> driverJoytick.getLeftY(),
+                () -> driverJoytick.getRightX(),
+                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(xboxOne, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
-    } 
+        new JoystickButton(driverJoytick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
+    }
 
     public Command getAutonomousCommand() {
         // 1. Create trajectory settings

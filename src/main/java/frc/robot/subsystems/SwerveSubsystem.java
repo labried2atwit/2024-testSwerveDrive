@@ -108,15 +108,26 @@ public class SwerveSubsystem extends SubsystemBase {
        
         // Used for Odometry purposes only, does not affect Teleop
 
-        SwerveModulePosition lf = new SwerveModulePosition(frontLeft.getDrivePosition(), new Rotation2d(frontLeft.getTurningPosition()));
-        SwerveModulePosition rf = new SwerveModulePosition(frontRight.getDrivePosition(), new Rotation2d(frontRight.getTurningPosition()));
-        SwerveModulePosition lb = new SwerveModulePosition(backLeft.getDrivePosition(), new Rotation2d(backLeft.getTurningPosition()));
-        SwerveModulePosition rb = new SwerveModulePosition(backRight.getDrivePosition(), new Rotation2d(backRight.getTurningPosition()));
+        SwerveModulePosition lf = new SwerveModulePosition(frontLeft.getDrivePosition(), new Rotation2d(frontLeft.getTurningPosition() *2 * Math.PI));
+        SwerveModulePosition rf = new SwerveModulePosition(frontRight.getDrivePosition(), new Rotation2d(frontRight.getTurningPosition() * 2 * Math.PI));
+        SwerveModulePosition lb = new SwerveModulePosition(backLeft.getDrivePosition(), new Rotation2d(backLeft.getTurningPosition() * 2 * Math.PI));
+        SwerveModulePosition rb = new SwerveModulePosition(backRight.getDrivePosition(), new Rotation2d(backRight.getTurningPosition() * 2 * Math.PI));
 
         odometer.update(getRotation2d(), 
             new SwerveModulePosition[]{
                 lf, rf, lb, rb
             });
+
+            SmartDashboard.putNumber("Gyro:", getHeading());
+            SmartDashboard.putNumber("Left Front Swerve: ", frontLeft.getTurningPosition());
+            SmartDashboard.putNumber("Right Front Swerve: ", frontRight.getTurningPosition());
+            SmartDashboard.putNumber("Left Back Swerve: ", backLeft.getTurningPosition());
+            SmartDashboard.putNumber("Right Back Swerve: ", backRight.getTurningPosition());
+
+            SmartDashboard.putNumber("Left Front Swerve Absolute: ", frontLeft.getAbsoluteEncoderRad());
+            SmartDashboard.putNumber("Right Front Swerve Absolute: ", frontRight.getAbsoluteEncoderRad());
+            SmartDashboard.putNumber("Left Back Swerve Absolute: ", backLeft.getAbsoluteEncoderRad());
+            SmartDashboard.putNumber("Right Back Swerve Absolute: ", backRight.getAbsoluteEncoderRad());
     }
 
     public void stopModules() {
@@ -132,5 +143,10 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
+    }
+
+
+    public void setWheelState( ){
+
     }
 }
